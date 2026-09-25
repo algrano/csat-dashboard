@@ -5,16 +5,18 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --ground:#f4f6f3; --surface:#ffffff; --sunk:#eef1ec;
-  --ink:#14201a; --ink-2:#4d5a53; --muted:#7c8781;
-  --line:#dde2db; --line-2:#c9d0c7;
-  --accent:#1f5a45; --accent-ink:#ffffff; --accent-wash:#e3eee8;
-  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
-  --good:#0a7d0a; --good-wash:#e2f3e2;
-  --warn:#9a6a00; --warn-wash:#fdf1d3;
-  --crit:#c12f2f; --crit-wash:#fbe4e2;
-  --grid:#e7eae5; --axis:#c3c9c1;
-  --shadow:0 1px 2px rgba(20,32,26,.06),0 8px 24px -12px rgba(20,32,26,.18);
+  --ground:#f2f5f5; --surface:#ffffff; --sunk:#e9eff0;
+  --ink:#274047; --ink-2:#4a6168; --muted:#7a8c91;
+  --line:#dbe3e5; --line-2:#c6d2d5;
+  --accent:#274047; --accent-ink:#ffffff; --accent-wash:#e3edf2;
+  --brand:#db6d31; --brand-ink:#ffffff; --sky:#a3ceeb; --leaf:#89b46b;
+  --band:#274047; --band-ink:#ffffff;
+  --s1:#3d86bd; --s2:#db6d31; --s3:#5f9a44;
+  --good:#3f7d2c; --good-wash:#e6f1df;
+  --warn:#9a6410; --warn-wash:#fbefd9;
+  --crit:#b83227; --crit-wash:#f8e2df;
+  --grid:#e6ecee; --axis:#c3cfd2;
+  --shadow:0 1px 2px rgba(39,64,71,.06),0 8px 24px -12px rgba(39,64,71,.2);
   --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
   --f-body:"Onest",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -22,30 +24,34 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --ground:#0f1311; --surface:#161b18; --sunk:#1c221f;
-    --ink:#edf2ee; --ink-2:#b9c3bd; --muted:#8a958f;
-    --line:#29302c; --line-2:#37403b;
-    --accent:#6cc9a0; --accent-ink:#0b1a13; --accent-wash:#1b2d25;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70;
-    --good:#3fc43f; --good-wash:#16301a;
-    --warn:#f2b73a; --warn-wash:#33290f;
-    --crit:#ef6b6b; --crit-wash:#3a1b1b;
-    --grid:#232a26; --axis:#3a433e;
+    --ground:#14232a; --surface:#1c2e35; --sunk:#233840;
+    --ink:#eef4f5; --ink-2:#bccbd0; --muted:#8ba0a6;
+    --line:#2c434b; --line-2:#3a545c;
+    --accent:#2f4f58; --accent-ink:#ffffff; --accent-wash:#243d45;
+    --brand:#e0763a; --brand-ink:#ffffff; --sky:#a3ceeb; --leaf:#89b46b;
+    --band:#274047; --band-ink:#ffffff;
+    --s1:#4f95cc; --s2:#dd6f32; --s3:#6aa84f;
+    --good:#8ac46b; --good-wash:#1f3a2a;
+    --warn:#f0b64a; --warn-wash:#3a3019;
+    --crit:#f07a6e; --crit-wash:#402326;
+    --grid:#263c44; --axis:#3b555d;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --ground:#0f1311; --surface:#161b18; --sunk:#1c221f;
-  --ink:#edf2ee; --ink-2:#b9c3bd; --muted:#8a958f;
-  --line:#29302c; --line-2:#37403b;
-  --accent:#6cc9a0; --accent-ink:#0b1a13; --accent-wash:#1b2d25;
-  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
-  --good:#3fc43f; --good-wash:#16301a;
-  --warn:#f2b73a; --warn-wash:#33290f;
-  --crit:#ef6b6b; --crit-wash:#3a1b1b;
-  --grid:#232a26; --axis:#3a433e;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+    --ground:#14232a; --surface:#1c2e35; --sunk:#233840;
+    --ink:#eef4f5; --ink-2:#bccbd0; --muted:#8ba0a6;
+    --line:#2c434b; --line-2:#3a545c;
+    --accent:#2f4f58; --accent-ink:#ffffff; --accent-wash:#243d45;
+    --brand:#e0763a; --brand-ink:#ffffff; --sky:#a3ceeb; --leaf:#89b46b;
+    --band:#274047; --band-ink:#ffffff;
+    --s1:#4f95cc; --s2:#dd6f32; --s3:#6aa84f;
+    --good:#8ac46b; --good-wash:#1f3a2a;
+    --warn:#f0b64a; --warn-wash:#3a3019;
+    --crit:#f07a6e; --crit-wash:#402326;
+    --grid:#263c44; --axis:#3b555d;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
 }
 *{box-sizing:border-box}
 body{background:var(--ground);color:var(--ink);font:15px/1.5 var(--f-body);margin:0}
@@ -60,9 +66,14 @@ h3{font-size:15px;font-weight:700}
 .muted{color:var(--muted)}
 button,select,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 
-header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;background:var(--band);color:var(--band-ink);border-radius:18px;padding:26px 28px;position:relative;overflow:hidden}
+header.top .eyebrow{color:var(--sky)}
+header.top .sub{color:#d5e1e4}
+header.top .pill{background:var(--brand);color:var(--brand-ink);font-weight:600}
+header.top h1 span{color:var(--brand)}
+header.top::after{content:"";position:absolute;right:-60px;top:-80px;width:240px;height:240px;border:2px solid var(--sky);border-radius:50%;opacity:.35;pointer-events:none}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
 .btn{border:1px solid var(--line-2);background:var(--surface);border-radius:9px;padding:8px 14px;font-weight:500;font-size:14px}
 .btn:hover{background:var(--sunk)}
@@ -204,7 +215,7 @@ td .cm{color:var(--ink-2);max-width:48ch}
   <header class="top">
     <div>
       <div class="eyebrow">Customer satisfaction · 3 touchpoints</div>
-      <h1>CSAT Pulse</h1>
+      <h1>CSAT <span>Pulse</span></h1>
       <p class="sub">Every rating from the afloat, first-release and contract-delivered surveys in one place. This is a read-only team view that is refreshed as new responses come in.</p>
     </div>
     <div class="actions">
@@ -341,10 +352,14 @@ function renderTps(){
 }
 
 /* ---------- chart ---------- */
+function mark(n,cx,cy,sz){ sz=sz||6; const f=`fill="var(--s${n})" stroke="var(--surface)" stroke-width="2"`;
+  if(n===2) return `<rect x="${cx-sz+.5}" y="${cy-sz+.5}" width="${2*sz-1}" height="${2*sz-1}" rx="2" ${f}/>`;
+  if(n===3) return `<path d="M${cx} ${cy-sz-1.5}L${cx+sz+1.5} ${cy}L${cx} ${cy+sz+1.5}L${cx-sz-1.5} ${cy}Z" ${f}/>`;
+  return `<circle cx="${cx}" cy="${cy}" r="${sz}" ${f}/>`; }
 function renderChart(){
   const el=$("chart"); const list=filtered(false).slice().sort((a,b)=>new Date(a.submittedAt)-new Date(b.submittedAt));
   const keys=state.survey==="all"?KEYS:[state.survey];
-  $("chartLegend").innerHTML=keys.map(k=>`<span><span class="dot d${SURVEYS[k].n}"></span>${esc(SURVEYS[k].short)}</span>`).join("")+`<span><span class="ln"></span>30-day avg</span>`;
+  $("chartLegend").innerHTML=keys.map(k=>`<span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">${mark(SURVEYS[k].n,7,7,5)}</svg>${esc(SURVEYS[k].short)}</span>`).join("")+`<span><span class="ln"></span>30-day avg</span>`;
   if(!list.length){ el.innerHTML=`<div class="empty-note" style="padding:40px 0;text-align:center">No responses in this view yet.</div>`; return; }
   const W=Math.max(320,el.clientWidth||700), H=260, m={l:34,r:14,t:12,b:30};
   const iw=W-m.l-m.r, ih=H-m.t-m.b;
@@ -368,7 +383,7 @@ function renderChart(){
   // jitter identical positions
   const seen={};
   list.forEach((r,i)=>{ const t=new Date(r.submittedAt).getTime(); let cx=x(t), cy=y(r.score); const key=Math.round(cx/8)+":"+r.score; const k=seen[key]=(seen[key]||0)+1; cx+= (k-1)*9;
-    g+=`<circle cx="${cx}" cy="${cy}" r="6" fill="var(--s${SURVEYS[r.survey].n})" stroke="var(--surface)" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="14" fill="transparent" data-i="${i}" style="cursor:default"/>`; });
+    g+=mark(SURVEYS[r.survey].n,cx,cy)+`<circle cx="${cx}" cy="${cy}" r="14" fill="transparent" data-i="${i}" style="cursor:default"/>`; });
   g+=`</svg><div class="tip" id="tip" hidden></div>`;
   el.innerHTML=g;
   const tip=$("tip");
