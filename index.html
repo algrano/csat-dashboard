@@ -205,10 +205,10 @@ td .cm{color:var(--ink-2);max-width:48ch}
     <div>
       <div class="eyebrow">Customer satisfaction · 3 touchpoints</div>
       <h1>CSAT Pulse</h1>
-      <p class="sub">Every rating from the afloat, first-release and contract-delivered surveys in one place. This is a read-only team view that is refreshed as new responses come in. Customer contact details are left out.</p>
+      <p class="sub">Every rating from the afloat, first-release and contract-delivered surveys in one place. This is a read-only team view that is refreshed as new responses come in.</p>
     </div>
     <div class="actions">
-      <span class="pill" style="font-size:13px;padding:5px 12px">Snapshot · updated 24 Sep 2026</span>
+      <span class="pill" style="font-size:13px;padding:5px 12px">Snapshot · updated 25 Sep 2026</span>
     </div>
   </header>
 
@@ -249,12 +249,12 @@ td .cm{color:var(--ink-2);max-width:48ch}
   <section class="panel">
     <div class="panel-head"><div><h2>All responses</h2><div class="muted" style="font-size:13px" id="tblCount"></div></div></div>
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Date</th><th>Survey</th><th>Score</th><th>Reference</th><th>Comments</th></tr></thead>
+      <thead><tr><th>Date</th><th>Survey</th><th>Score</th><th>Reference</th><th>Customer</th><th>Comments</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table></div>
   </section>
 
-  <p class="foot">Scores are on Typeform's 0–5 scale. <b>CSAT</b> = share of responses scoring 4 or 5. <b>Detractors</b> = scores 0–2. Snapshot taken 24 Sep 2026; filters and hovers work, but nothing here can be edited.</p>
+  <p class="foot">Scores are on Typeform's 0–5 scale. <b>CSAT</b> = share of responses scoring 4 or 5. <b>Detractors</b> = scores 0–2. Snapshot taken 25 Sep 2026; filters and hovers work, but nothing here can be edited.</p>
 </div>
 
 <div class="toast" id="toast" hidden></div>
@@ -374,7 +374,7 @@ function renderChart(){
   const tip=$("tip");
   el.querySelectorAll("circle[data-i]").forEach(c=>{
     c.addEventListener("pointerenter",()=>{ const r=list[+c.dataset.i]; const cm=(r.answers||[]).map(a=>a.a).filter(Boolean)[0];
-      tip.innerHTML=`<b>${r.score}/5 · ${esc(SURVEYS[r.survey].short)}</b><br>${esc(fmtD(r.submittedAt))} · ${esc(r.ref||"—")}${cm?`<br><i>“${esc(cm.length>110?cm.slice(0,110)+"…":cm)}”</i>`:""}`;
+      tip.innerHTML=`<b>${r.score}/5 · ${esc(SURVEYS[r.survey].short)}</b><br>${esc(fmtD(r.submittedAt))} · ${esc(r.ref||"—")}${r.email?`<br>${esc(r.email)}`:""}${cm?`<br><i>“${esc(cm.length>110?cm.slice(0,110)+"…":cm)}”</i>`:""}`;
       tip.hidden=false; const box=el.getBoundingClientRect(), cb=c.getBoundingClientRect();
       let left=cb.left-box.left+cb.width/2+10, top=cb.top-box.top-10; tip.style.left="0px"; tip.style.top="0px";
       const tw=tip.offsetWidth; if(left+tw>box.width) left=cb.left-box.left-tw-4; tip.style.left=Math.max(0,left)+"px"; tip.style.top=Math.max(0,top)+"px"; });
@@ -405,6 +405,7 @@ function renderFollowUp(){
     <span class="score ${band(r.score)}">${r.score}<small>/5</small></span>
     <div class="fu-body">
       <div class="fu-top"><span class="pill"><span class="dot d${SURVEYS[r.survey].n}"></span>${esc(SURVEYS[r.survey].short)}</span><span class="mono">${esc(r.ref||"—")}</span>${r.origin?`<span>${esc(r.origin)} → ${esc(r.destination||"")}</span>`:""}<span class="muted">${esc(fmtD(r.submittedAt))}</span></div>
+      ${r.email?`<div style="font-size:13px" class="mono">${esc(r.email)}</div>`:""}
       ${(r.answers||[]).filter(a=>a.a).map(a=>`<div class="qa"><span class="q">${esc(a.q)}</span>${esc(a.a)}</div>`).join("")||`<div class="muted" style="font-size:13px">No comment left.</div>`}
       <div style="display:flex;gap:6px;flex-wrap:wrap">${themesOf(r).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
     </div>
@@ -417,19 +418,20 @@ function renderTable(){
   const list=filtered(false).slice().sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
   $("tblCount").textContent=list.length+" response"+(list.length===1?"":"s")+" in this view";
   const tb=$("tbody");
-  if(!list.length){ tb.innerHTML=`<tr><td colspan="5" class="muted" style="text-align:center;padding:24px">No responses in this view.</td></tr>`; return; }
+  if(!list.length){ tb.innerHTML=`<tr><td colspan="6" class="muted" style="text-align:center;padding:24px">No responses in this view.</td></tr>`; return; }
   tb.innerHTML=list.map(r=>`<tr>
     <td class="num">${esc(fmtD(r.submittedAt))}</td>
     <td><span class="pill"><span class="dot d${SURVEYS[r.survey].n}"></span>${esc(SURVEYS[r.survey].short)}</span></td>
     <td><span class="score ${band(r.score)}" style="height:26px;min-width:38px;font-size:14px">${r.score}</span></td>
     <td><span class="mono">${esc(r.ref||"—")}</span>${r.origin?`<div class="muted" style="font-size:12px">${esc(r.origin)} → ${esc(r.destination||"")}</div>`:""}</td>
+    <td class="mono">${esc(r.email||"—")}</td>
     <td><div class="cm">${(r.answers||[]).map(a=>a.a).filter(Boolean).map(esc).join("<br>")||'<span class="muted">—</span>'}</div></td></tr>`).join("");
 }
 
 function render(){ renderFilters(); renderKpis(); renderTps(); renderChart(); renderThemes(); renderFollowUp(); renderTable(); }
 let rz; window.addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderChart,120);});
 
-state.rows=([{"survey": "first_release", "score": 0, "maxScore": 5, "ref": "RO.11939", "origin": "", "destination": "", "submittedAt": "2026-08-28T17:01:21.000Z", "answers": [{"a": "We pay around 180-200 for our freight in state of Florida", "q": "Did you experience any issues with transport prices or time?"}], "status": "open"}, {"survey": "afloat", "score": 5, "maxScore": 5, "ref": "CODE106", "origin": "Colombia", "destination": "Germany", "submittedAt": "2026-09-23T04:14:22.000Z", "answers": [], "status": "none"}, {"survey": "afloat", "score": 5, "maxScore": 5, "ref": "UGDE77", "origin": "Uganda", "destination": "Germany", "submittedAt": "2026-09-04T11:35:32.000Z", "answers": [], "status": "none"}, {"survey": "first_release", "score": 3, "maxScore": 5, "ref": "RO.12053", "origin": "", "destination": "", "submittedAt": "2026-09-14T06:01:06.000Z", "answers": [{"a": "Algrano did a good job organizing the shipment. Unfortunately, I didn't receive a tracking number, and when the package arrived, there was no protective wrap around the two bags. It was raining, both bags were wet, and one of them had a hole in the bottom.", "q": "Did you experience any issues with transport prices or time?"}], "status": "none"}, {"survey": "afloat", "score": 4, "maxScore": 5, "ref": "ETUS129", "origin": "Ethiopia", "destination": "United States", "submittedAt": "2026-09-17T16:22:50.000Z", "answers": [{"a": "The export process was pretty good, let's go with 4. I justify this by having clear deadlines, clearly marked samples, good communication with producer and Algrano, and sending to my specific warehouse. And having clean pricing options. Obviously imports are difficult, and imports out of Ethiopia right now more-so. But if you are specifically asking about the export process, I can give this score.", "q": "Revised feedback after clarification (export process)"}], "status": "resolved"}, {"survey": "first_release", "score": 0, "maxScore": 5, "ref": "RO.11932", "origin": "", "destination": "", "submittedAt": "2026-08-28T10:02:27.000Z", "answers": [{"a": "Yes", "q": "Did you experience any issues with transport prices or time?"}], "status": "open"}, {"survey": "afloat", "score": 1, "maxScore": 5, "ref": "MXDE46", "origin": "Mexico", "destination": "Germany", "submittedAt": "2026-09-14T22:17:23.000Z", "answers": [{"a": "Communication, minimal information, problem solving, time to answer and coordination with another exporter", "q": "We're sorry to hear that. What went wrong with this shipment?"}, {"a": "Better information flow and attentive communication", "q": "What could we have done to make this experience better?"}], "status": "open"}, {"survey": "afloat", "score": 5, "maxScore": 5, "ref": "NIUS44", "origin": "Nicaragua", "destination": "United States", "submittedAt": "2026-09-22T05:20:25.000Z", "answers": [], "status": "none"}]).map(d=>Object.assign({answers:[],status:"none"},d,{score:Number(d.score)})).filter(r=>SURVEYS[r.survey]&&!isNaN(r.score));
+state.rows=([{"survey": "first_release", "score": 0, "maxScore": 5, "ref": "RO.11939", "email": "claudio@goldenbushcoffee.com", "origin": "", "destination": "", "submittedAt": "2026-08-28T17:01:21.000Z", "answers": [{"a": "We pay around 180-200 for our freight in state of Florida", "q": "Did you experience any issues with transport prices or time?"}], "status": "open"}, {"survey": "afloat", "score": 5, "maxScore": 5, "ref": "CODE106", "email": "f_cioce@bluewin.ch", "origin": "Colombia", "destination": "Germany", "submittedAt": "2026-09-23T04:14:22.000Z", "answers": [], "status": "none"}, {"survey": "afloat", "score": 5, "maxScore": 5, "ref": "UGDE77", "email": "erwabushaija@rubangacoop.com", "origin": "Uganda", "destination": "Germany", "submittedAt": "2026-09-04T11:35:32.000Z", "answers": [], "status": "none"}, {"survey": "first_release", "score": 3, "maxScore": 5, "ref": "RO.12053", "email": "info@kupferbohne.ch", "origin": "", "destination": "", "submittedAt": "2026-09-14T06:01:06.000Z", "answers": [{"a": "Algrano did a good job organizing the shipment. Unfortunately, I didn't receive a tracking number, and when the package arrived, there was no protective wrap around the two bags. It was raining, both bags were wet, and one of them had a hole in the bottom.", "q": "Did you experience any issues with transport prices or time?"}], "status": "none"}, {"survey": "afloat", "score": 4, "maxScore": 5, "ref": "C.10990 + C.10989", "email": "", "origin": "Ethiopia", "destination": "United States", "submittedAt": "2026-09-24T12:00:00.000Z", "answers": [{"q": "How was your experience with your recent shipment? (export process)", "a": "The export process was pretty good, let's go with 4. I justify this by having clear deadlines, clearly marked samples, good communication with producer and Algrano, and sending to my specific warehouse. And having clean pricing options. Obviously imports are difficult, and imports out of Ethiopia right now more-so. But if you are specifically asking about the export process, I can give this score."}], "status": "none"}, {"survey": "afloat", "score": 0, "maxScore": 5, "ref": "ETUS129", "email": "roaster@madlabcoffee.com", "origin": "Ethiopia", "destination": "United States", "submittedAt": "2026-09-17T16:22:50.000Z", "answers": [{"q": "We're sorry to hear that. What went wrong with this shipment?", "a": "4 months late"}, {"q": "What could we have done to make this experience better?", "a": "Not be 4 months late"}], "status": "open"}, {"survey": "first_release", "score": 0, "maxScore": 5, "ref": "RO.11932", "email": "hello@balloon.coffee", "origin": "", "destination": "", "submittedAt": "2026-08-28T10:02:27.000Z", "answers": [{"a": "Yes", "q": "Did you experience any issues with transport prices or time?"}], "status": "open"}, {"survey": "afloat", "score": 1, "maxScore": 5, "ref": "MXDE46", "email": "david@marchantia.mx", "origin": "Mexico", "destination": "Germany", "submittedAt": "2026-09-14T22:17:23.000Z", "answers": [{"a": "Communication, minimal information, problem solving, time to answer and coordination with another exporter", "q": "We're sorry to hear that. What went wrong with this shipment?"}, {"a": "Better information flow and attentive communication", "q": "What could we have done to make this experience better?"}], "status": "open"}, {"survey": "afloat", "score": 5, "maxScore": 5, "ref": "NIUS44", "email": "lrtm1990@gmail.com", "origin": "Nicaragua", "destination": "United States", "submittedAt": "2026-09-22T05:20:25.000Z", "answers": [], "status": "none"}]).map(d=>Object.assign({answers:[],status:"none"},d,{score:Number(d.score)})).filter(r=>SURVEYS[r.survey]&&!isNaN(r.score));
 $("liveText").textContent="Read-only · "+state.rows.length+" responses";
 render();
 $("showResolved").onchange=e=>{state.showResolved=e.target.checked; renderFollowUp();};
